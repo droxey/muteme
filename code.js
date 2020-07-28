@@ -6,7 +6,9 @@ const TIMEOUT_SECONDS = 30;
 
 // Set a consistent timeout in milliseconds.
 const ledTimeout = TIMEOUT_SECONDS * 60 * 1000;
-let isMuted = false;
+
+// Assume we start muted.
+let isMuted = true;
 
 // resetLEDs resets all three LEDs.
 function resetLEDs() {
@@ -15,7 +17,7 @@ function resetLEDs() {
     LED3.reset();
 }
 
-// setMute toggles the status indication LEDs. 
+// setMute toggles the status indication LEDs.
 // Green for unmuted, red for muted.
 function setMute(muted) {
     isMuted = muted;
@@ -38,19 +40,14 @@ function toggleMute() {
     });
 }
 
-// unmuteAll sends CTRL + ALT + A, mapped to a script that unmutes all devices.
-function unmuteAll() {
-    kb.tap(kb.KEY.A, kb.MODIFY.LEFT_CTRL | kb.MODIFY.LEFT_ALT, function () {
-        setMute(false);
-    });
-}
-
 // checkBattery notifies the user with a blue LED flash if the battery is less than or equal to 10%.
 function checkBattery() {
-    if (E.getBattery() <= 10) {
+    const batteryLevel = E.getBattery();
+    if (batteryLevel<= 10) {
         resetLEDs();
         digitalWrite(LED3, 1, 200);
     }
+    console.log("Battery:\t", batteryLevel);
 }
 
 // Watch for button presses.
@@ -59,4 +56,4 @@ setWatch(function () { toggleMute(); }, BTN, { edge: "rising", debounce: 10, rep
 // Once connected, reset all LEDs, check the battery level, then unmute all devices.
 resetLEDs();
 checkBattery();
-unmuteAll();
+setMute(true);
