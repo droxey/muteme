@@ -51,7 +51,7 @@ function checkBattery() {
 }
 
 // Watch for button presses.
-setWatch(function () { toggleMute(); }, BTN, { edge: "rising", debounce: 10, repeat: true });
+setWatch(function () { toggleMute(); }, BTN, { edge: "rising", debounce: 25, repeat: true });
 
 // Once connected, reset all LEDs, check the battery level, then unmute all devices.
 resetLEDs();
