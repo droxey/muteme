@@ -12,7 +12,7 @@ function setMute(muted) {
     setTimeout(isMuted ? "LED1.reset()" : "LED2.reset()", LED_TIMEOUT);
 }
 
-// Mute te all devices once connected.
+// Mute all devices once connected.
 kb.tap(kb.KEY.X, kb.MODIFY.LEFT_CTRL | kb.MODIFY.LEFT_ALT, function () {
     setMute(true);
 });
